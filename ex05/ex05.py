@@ -2,13 +2,13 @@ class Plant:
 
     def __init__(self, name: str, height: float, age: int):
         self.name = name
-        self._height = height
-        self._age = age
+        self._height = 0.0 
+        self._age = 0 
+        self.set_height(height)
+        self.set_age(age)
 
     def show(self) -> None:
-        print(f"Plant: {self.name.capitalize()}")
-        print(f"  Height: {self._height:.1f}cm")
-        print(f"  Age: {self._age} days")
+        print(f"{self.name.capitalize()}: {self._height:.1f}cm, {self._age} days old")
 
     def grow(self) -> None:
         self._height += 0.8
@@ -23,11 +23,15 @@ class Plant:
         return self._age
 
     def set_height(self, height: float) -> None:
-        if height >= 0:
+        if height < 0:
+            print(f"Error, height can't be negative: {height}")
+        else:
             self._height = height
 
     def set_age(self, age: int) -> None:
-        if age >= 0:
+        if age < 0:
+            print(f"Error, age can't be negative: {age}")
+        else:
             self._age = age
 
 
@@ -39,12 +43,16 @@ class Flower(Plant):
 
     def show(self) -> None:
         super().show()
-        print(f"  Color: {self.color}")
-        print(f"  Has bloomed: {self._has_bloomed}")
+        print(f"Color: {self.color}")
+        if self._has_bloomed == False:
+            print(f"Rose has not bloomed yet")
+            print(f"[asking the rose to bloom]")
+        else :
+            print(f"{self.name.capitalize()} is blooming beautifully!")
+
 
     def bloom(self) -> None:
         self._has_bloomed = True
-        print(f"{self.name.capitalize()} is blooming beautifully!")
 
 
 class Tree(Plant):
@@ -55,10 +63,10 @@ class Tree(Plant):
 
     def show(self) -> None:
         super().show()
-        print(f"  Trunk diameter: {self.trunk_diameter:.1f}cm")
+        print(f"Trunk diameter: {self.trunk_diameter:.1f}cm")
 
     def produce_shade(self) -> None:
-        print(f"{self.name.capitalize()} is providing nice shade!")
+        print(f"Tree {self.name.capitalize()} now produces a shade of {self._height}cm long and {self.trunk_diameter:.1f}cm wide")
 
 
 class Vegetable(Plant):
@@ -75,18 +83,22 @@ class Vegetable(Plant):
 
     def grow(self) -> None:
         super().grow()
-        self.nutritional_value += 5
 
     def age(self) -> None:
         super().age()
-        self.nutritional_value += 2
+        self.nutritional_value += 1
 
 
 def main():
     rose = Flower("rose", 25.0, 30, "red")
     print("=== Flower ===")
     rose.show()
+    print()
+
+    rose = Flower("rose", 25.0, 30, "red")
+    print("=== Flower ===")
     rose.bloom()
+    rose.show()
     print()
 
     oak = Tree("oak", 200.0, 365, 30.5)
@@ -102,6 +114,8 @@ def main():
 
     print("=== Vegetable after growth ===")
     tomato.grow()
+    tomato.grow()
+    tomato.age()
     tomato.age()
     tomato.show()
 
