@@ -46,7 +46,6 @@ class Flower(Plant):
         print(f"Color: {self.color}")
         if self._has_bloomed == False:
             print(f"Rose has not bloomed yet")
-            print(f"[asking the rose to bloom]")
         else :
             print(f"{self.name.capitalize()} is blooming beautifully!")
 
@@ -92,6 +91,7 @@ class Vegetable(Plant):
 def main():
     rose = Flower("rose", 25.0, 30, "red")
     print("=== Flower ===")
+    print(f"[asking the rose to bloom]")
     rose.show()
     print()
 

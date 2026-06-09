@@ -1,27 +1,13 @@
+#!/usr/bin/env python3
+
 class Plant:
-    class Statistics:
-        def __init__(self):
-            self._grow_calls = 0
-            self._age_calls = 0
-            self._show_calls = 0
-
-        def grow_called(self) -> None:
-            self._grow_calls += 1
-
-        def age_called(self) -> None:
-            self._age_calls += 1
-
-        def show_called(self) -> None:
-            self._show_calls += 1
-
-        def display(self) -> str:
-            return f"Stats: {self._grow_calls} grow, {self._age_calls} age, {self._show_calls} show"
-
     def __init__(self, name: str, height: float, age: int):
         self.name = name
         self._height = 0.0
-        self._age = 0
-        self._stats = Plant.Statistics()
+        self._age = 0      
+        self._grow_calls = 0
+        self._age_calls = 0
+        self._show_calls = 0
         self.set_height(height)
         self.set_age(age)
 
@@ -34,19 +20,16 @@ class Plant:
         return cls("Unknown", height, age)
 
     def show(self) -> None:
-        self._stats.show_called()
+        self._show_calls += 1
         print(f"{self.name.capitalize()}: {self._height:.1f}cm, {self._age} days old")
 
     def grow(self) -> None:
-        self._stats.grow_called()
+        self._grow_calls += 1
         self._height += 0.8
 
     def age(self) -> None:
-        self._stats.age_called()
+        self._age_calls += 1
         self._age += 1
-
-    def get_stats(self):
-        return self._stats
 
     def get_height(self) -> float:
         return self._height
@@ -66,13 +49,11 @@ class Plant:
         else:
             self._age = age
 
-
-    def display_extra_stats(self) -> None:
-        pass
+    def display_stats(self) -> None:
+        print(f"Stats: {self._grow_calls} grow, {self._age_calls} age, {self._show_calls} show")
 
 
 class Flower(Plant):
-
     def __init__(self, name: str, height: float, age: int, color: str):
         super().__init__(name, height, age)
         self.color = color
@@ -91,7 +72,6 @@ class Flower(Plant):
 
 
 class Seed(Flower):
-
     def __init__(self, name: str, height: float, age: int, color: str, seed_count: int = 0):
         super().__init__(name, height, age, color)
         self.seed_count = seed_count
@@ -106,7 +86,6 @@ class Seed(Flower):
 
 
 class Tree(Plant):
-
     def __init__(self, name: str, height: float, age: int, trunk_diameter: float):
         super().__init__(name, height, age)
         self.trunk_diameter = trunk_diameter
@@ -122,13 +101,12 @@ class Tree(Plant):
 
     def get_shade_calls(self) -> int:
         return self._shade_calls
-    
+
     def display_extra_stats(self) -> None:
         print(f"{self._shade_calls} shade")
 
 
 class Vegetable(Plant):
-
     def __init__(self, name: str, height: float, age: int, harvest_season: str):
         super().__init__(name, height, age)
         self.harvest_season = harvest_season
@@ -148,9 +126,11 @@ class Vegetable(Plant):
 
 
 def display_stats(plant: Plant) -> None:
-    stats = plant.get_stats()
+    """
+    Affiche les statistiques pour n'importe quelle plante.
+    """
     print(f"[statistics for {plant.name.capitalize()}]")
-    print(stats.display())
+    plant.display_stats()  # ← Appel direct, plus besoin de get_stats()
     plant.display_extra_stats()
 
 
@@ -188,7 +168,7 @@ def main():
     
     print("[make sunflower grow, age and bloom]")
     sunflower.grow()
-    sunflower.age() 
+    sunflower.age()
     sunflower.bloom()
     sunflower.show()
     display_stats(sunflower)
