@@ -30,7 +30,7 @@ def test_watering_system() -> None:
     print("Opening watering system")
     try:
         water_plant("TOMATO")
-        water_plant("LETTUCE")
+        water_plant("LETTUCE") 
         water_plant("CARROTS")
     except PlantError as e:
         print(f"Caught {type(e).__name__}: {e}")
